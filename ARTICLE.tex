@@ -189,7 +189,7 @@ We finally propose a deep-learning model base to predict video memorability, com
 %citer Deep learning emotional images bias
 
 %%%%%%%%%%%%%%%%%%%%%%
-%Opening %Ok
+%Opening
 Enhancing the relevance of multimedia occurrences in our everyday life requires to imagine new ways to organize -- in particular, to retrieve -- contents.
 Like other metrics of video "importance", such as aesthetics or interestingness, memorability can be regarded as a particularly relevant element to help us picking a video among several ones, with the advantage of a possibility to be measured less subjectively.
 
@@ -231,13 +231,20 @@ Videos are more complex than images. Contrary to images, videos do not constitut
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection{Previous work} %Critics of the 2 previous studies
 %Critics of studies on image memorability : the problem of sustainable long-term memorability
-The work on image memorability prediction, initiated with \cite{isola_2011_makes}, achieved great results \cite{khosla_2015_understanding,baveye_2016_deep,squalli_2017_deep}.
+The work on image memorability prediction, initiated by \cite{isola_2011_makes}, produced great results \cite{khosla_2015_understanding,baveye_2016_deep,squalli_2017_deep}.
+The availability of two large datasets \cite{isola_2011_makes,khosla_2015_understanding} has been critical in this achievement. 
+However, possibly constrained by the difficulty in conducting long crowdsourcing studies, the authors measured memory performance a few minutes after memorization to obtain their memorability annotations.
+As shown in \cite{cohendet_2016_prediction}, this could be a problem if we conceive that memorability reflects a lasting memory performance.
+Indeed, it has long been shown that long-term memories continue to change long after their memorization through an ongoing process called consolidation \cite{mcgaugh_2000_memory}.
 
-Probably constraint by the difficulty to perform large long span studie in crowdsourcing, this lasts necessary to build a annotated database large enough to meet dep-learning, the authors of the major existing dataset \cite{isola_2011_makes,khosla_2015_understanding} measured memory some minutes after learning.
-Or, this could be a drawback, as propose and showed in \cite{cohendet_2016_prediction}.
-Indeed, long-term memorability continue to evolve gretly in the first day of long-term memory [Ebbinghaus's curves], which could change the order of memorability of images, alors que les goals proposés pour la mémorabilité des images et vidéos supposent d'être capables de prédire une mémorabilité à réel long terme.
+In particular, the early work of the psychologist Ebbinghaus showed that the drop in long-term memory performance is particularly strong in the few days immediately following the memorization.
 
-It would be cool to have a protocole that measures what we will later refer to as "long-term" memorability.
+, with a memory performance in recall that asymptotically tends its long-term performance \cite{ebbinghaus_1913_memory}.
+
+Because several factors are susceptible to influence the consolidation process (such as the emotional content, the semantics, the attention...), which is not a linear decrease for all the memories, it follows that the order of memorability of images is susceptible to change from some minutes to a day after memorization, as it has been found in \cite{cohendet_2016_prediction} with emotional image from of the International Affective Picture System \cite{lang_2005_international}.
+
+A protocol to collect memorability annotations for videos would benefit from the capacity to measure what we will later refer to as "long-term memorability".
+
 
 
 %Critics of Han et al.
@@ -285,10 +292,10 @@ To sum up, we want a protocol:
 D'autre part, all around paper
 
 %3/ we want to meet the challenge of video memorability prediction
-Finally, we want -- thanks to our protocole -- to participate in the VM prediction challenge.
+Finally, we want -- thanks to our protocol -- to participate in the VM prediction challenge.
 
 %Conclusion intro
-The rest of the article is as follows: part 2 concerns the ground truth collection, part 3 the study of the collected data and the calculation of the memorability scores of the sequences, part 4 predicting memorability, and part 5 the conlusion and intended future work.
+The rest of the article is as follows: part 2 concerns the ground truth collection, part 3 the study of the collected data and the calculation of the memorability scores of the sequences, part 4 predicting memorability, and part 5 the conclusion and intended future work.
 
 
 
@@ -305,35 +312,67 @@ The rest of the article is as follows: part 2 concerns the ground truth collecti
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Construction of the dataset}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Our first step was to implement a protocol to measure the long-term memorability of 700 video sequences, extracted from 100 mainstream films.
+Our first step was to implement a protocol to measure the long-term memorability of 700 video sequences, extracted from 100 mainstream movies.
 The main characteristic of the protocol, in contrast with previously proposed methods to collect image and video memorability annotations, is the absence of learning/free viewing task, replaced by a questionnaire designed to collect information about the participants' prior memory.
 The way of proceeding aimed at measuring memory performance after a significant retention period.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dataset}
-%% films
-We mixed films' popularity and genres to establish our list. 
-%The movies quality was HD 720-1080, except for ??? dvdrip movies.
+%% films and sequences
+We mixed popularity and genres to establish our list of movies.% occidental movies, except for Slumdog millionaire)%to check%(list added to the appendix [ref_appendix])
+Then, we manually selected seven sequences of 10 seconds from each movie (for a total of 700 sequences). %with HD or dvdrip quality, in orginal (i.e.english) version, without without subtitles [add if results HD vs. DVDrip]
+
+%cuts
+We made efforts to maintain a high intra-sequence semantic cohesion; in particular, we did not cut through meaningful vectors nor we agglomerated shots that belonged to different scenes.
+Indeed, we think the images' characteristic by which they constitute obvious semantic units is an important element in the capacity of the prediction models to generalize.
+By contrast, the meaning a sequence conveyed was susceptible to change depending on where we decided to cut the movie.
 
 
-orginal-english version (without subtitles) (occidental movies, except for Slumdog millionaire) %to check
-
-%%video sequences
-We then manually selected 7 video sequences of 10 seconds from each movies (for a total of 700 videos).
+Because the semantics is linked to the memorability of images \cite{isola_2014_makes}, so probably to videos, therefore their memorabilities, we chose this definition susceptible to be extensive to predict other dataset.
 
 
-The sequences had to meet several criteria to be selected.
-First, not to be part of the official trailers, to be sure that, if a participant report not having seen the movie, he won't have seen the sequence presented for the recognition in a trailer.
-Second, we wanted our sequences to constitute "logical" units, that is to say to "protect the sens" of the videos. Indeed, semantics is linked to memorability of images \cite{isola_2014_makes}, from which we can imagine that it is also the case for videos. But, contrary to images that are clearly cut units, sequences memorability depends on the cut. To maintain a relative semantic consistency intra-sequence, the cutters were provided with the instruction to avoid to cut in the middle of a sentence, of to agglomerate very different plans together. The idea was to increase the coherence of the sequences to diminish the difficulty of he computational models to learn without impairing their capacity to generalize.
 
-%%Generic vs. typical
-During the manual selection of the sequence, we chose 127 sequences (among the 700) we called "generic" by contrast to "typical" ones. Generic sequences are parts of the movie which do not contain any elements that would enable someone to easily guess that the sequences belong to the particular movie. The list of undesirable includes but is not limited to: scenes with recognizable famous actors (e.g. in Kill Bill, avoid the scenes with Uma Thurman, Lucy Liu, David Carradine…); scenes famous for their music, gesture... (e.g. in Kill Bill, avoid the scenes with music that enable to easily guess that the sequence comes from Kill Bill); scenes with typical elements (e.g. a spaceship or an alien from which you can easily guess that you are watching a Star Wars movie). The cutters were provided with the instructions to ask themselves the following question when choosing a generic sequence in a movie: “Could I easily guess this sequence belongs to the movie I extracted it from?” -- if the answer was yes, so don’t select this sequence.
-In some movies (e.g. Kill Bill 1, Star wars, 2001 A Space Odyssey, etc.), just a few 10-sec sequences of no sequence at all were found to meet these criteria (e.g. The lord of the ring); for these movies, we don't have generic sequences.
-By contrast, non-generic sequences were namely two 10-sec parts of the movie that you think are very representative of the movie (you can choose any part of the movie without restriction).
-These two types of sequences should be considered in link with the instruction of the task written above (even if you know that a sequence comes from a movie, just answer if you recognize THE sequence): it is just a supplementary control (qui jour un rôle symétrique au taux de FA pour la prise de risque).
+%hence, in our idea, fostering semantics coherence of the sequences equal to diminish the difficulty of the computational models to learn without impairing their capacity to generalize.
+
+
+
+
+%neutral vs. typical
+We also gave preference to the sequences we called "neutral", by contrast to the "typical" ones.
+According to our definition, a neutral sequence is a part of a movie which contains no element that would enable someone to easily guess it belongs to a particular movie.
+
+The list of undesirable includes but is not limited to: recognizable famous actors, typical music, style, or any element... 
+
+The question we asked ourselves to select the neutral sequence was the following: "Could I guess this sequence belongs to the movie I extracted it from if I didn't know it?"
+
+
+
+In most movies, just a few or no 10-sec sequences of this sort exist. For example, in Kill Bill 1, we can 
+
+That explains why, at the end, we obtained only 127 neutral sequences for 573 typical ones, that are defined as being non neutral sequences that meet the first criterion.
+
+
+These two types of sequences -- neutral \textit{vs.} typical -- should be considered in conjunction with the instruction of the task: 
+
+neutral sequences are control.
+
+ of the task written above (even if you know that a sequence comes from a movie, just answer if you recognize THE sequence): 
+ 
+They only are used as controls is just a supplementary control (qui joue un rôle symétrique au taux de FA pour la prise de risque).
+
+
+
 
 %%Indoor/Outdoor
-In Isola et al., 2014, the authors showed that memorability directly correlated with color. To explain thi result, they advanced the hypothesis that the difference in memorability between indoor and outdoor scenes was due to the fact that the later tend to be less memorable that the older, and that the color tend to linked with a differences in colors, could explain this result. To validate this hypothesis, we manually annotated our 700 sequences as consisting of an indoor or outdoor scene.
+ %In Isola et al., 2014, the authors showed that memorability directly correlated with color. To explain this result, they advanced the hypothesis that the difference in memorability between indoor and outdoor scenes was due to the fact that the later tend to be less memorable that the older, and that the color tend to linked with a differences in colors, could explain this result. To validate this hypothesis, we manually annotated our 700 sequences as consisting of an indoor or outdoor scene.
+
+%fig with video frame memorability scores ranked from most t oless memorable.
+
+
+
+
+% potentially
+ %First, not to be part of the official trailers, to be sure that, if a participant report not having seen the movie, he won't have seen the sequence presented for the recognition in a trailer. => Bof: this doesn't matter if False Alarms becauses of seen trailer.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Survey design}
@@ -364,51 +403,57 @@ The videos were displayed on a ????? inch monitor (TV SONY Bravia ?????) with a 
 %The 1,024 $\times$ 768 videos were centered on a black background; at a viewing distance of 150 cm, the stimuli subtended 18.85 degrees of vertical visual angle.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{STUDY OF THE MEMORABILITY SCORES}
+\section{STUDY OF THE MEMORABILITY ANNOTATIONS}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this section, we describe in detail the ground truth data collected thanks to the protocol described in the previous section.
 We conclude by calculating the memorability scores finally used to feed our prediction models.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{}
-
-%We finally work on 660 movies (sequences annotated at least 4 times).
-
-%%%
-\subsubsection{Sequences' memorabilities}
-A sequence's memorability is defined as the percentage of correct detections by participants.
-On average, each video was viewed as target by $9.3$ participants. Average sequence memorability was $48.25\%$ (SD of $28.21\%$).
-On average, each video was viewed as filler by $9.2$ participants. Average false alarm rate was $5.95\%$ (SD of $14.47\%$). 
-%corriger score par moyenne de mem du film -- est-ce que ça a un sens ?
-
+For the results we retain only the 660 sequences that had been seen at least 4 times as targets, and remove sequence selected from films too few participants had seen.
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Number of annotations per sequence}
-The histogram presented in the figure \ref{fig:nb_annotations_per_sequence} corresponds to the number of sequences for each possible number of annotations.
+\subsection{Overview}
+The average memorability of the test was $46.71\%$ (SD of $14.65\%$). The average false alarm rate was $4.16\%$ (SD of $5.27\%$).
 
-%Histogram of number of nb of sequences per possibble nb of annotations
-\begin{figure}[!htbp]
-	\centering
-	\includegraphics[width=\columnwidth]{figures/histogram_nb_sequences_for_nb_of_annotations.png}
-	\caption{\label{fig:nb_annotations_per_sequence}Nb of sequences for each possible nb of annotations per sequence (>=3).}
-\end{figure}
 
-%figure Rank corr for Isola et al. et han et al., pour montrer que le nombre d'annotation sva plus vite pour les videos (mais crowdsourcing vs. laboratoire -- et autres facteurs...)
+On average, each sequence was viewed as target by $10.7$ participants. 
+On average, each sequence was viewed as filler by $10.5$ participants. 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sequences' memorabilities}
+%A sequence's memorability is defined as the percentage of correct detections by participants.
+
+
+
+%Corriger score par moyenne de mem du film -- est-ce que ça a un sens ? Par le nombre de vue du film ? par le moment où il a été vu?
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Consistency analysis}
-We implemented the method proposed in \cite{isola_2014_makes} to measure the human consistency. It answers the question: "Are the videos that are more memorable (or forgettable) for a group of observers also more likely to be remembered (or forgotten) by a different group of observers? The figure \ref{fig:human_consistency} presents the curve of the human consistency for each video sequence. It answers the question: "How many annotations for each do we need for the human consistency stop varying?'
+The histogram presented in the figure \ref{fig:human_consistency}(a) corresponds to the number of sequences for each possible number of annotations.
 
+%Fig
+%Histogram of number of nb of sequences per possibble nb of annotations
 %Curve of human consistency
 \begin{figure}[!htbp]
 	\centering
-	\subfloat[(a) Human concistency for images in \cite{khosla_2015_understanding}]{\includegraphics[width=0.3\columnwidth]{figures/human_consistency_LaMem.png}}
+	\subfloat[Number of sequences associated with number of annotations.]{\includegraphics[width=0.3\columnwidth]{figures/histogram_nb_sequences_for_nb_of_annotations.png}}
 	\quad
 	\subfloat[(b) Human consistency for videos for us]{\includegraphics[width=0.3\columnwidth]{figures/Measure_of_human_consistency.png}}
-	\caption{\label{fig:human_consistency}Human consistency averaged over 25 random splits (right) obtained using the method proposed by \cite{isola_2014_makes} for sequences with at least 5 annotations (with standard error).}
+	\caption{\label{fig:human_consistency}(a) Number of sequences for each possible nb of annotations per sequence. (b) Human consistency averaged over 25 random splits (right) obtained using the method proposed by \cite{isola_2014_makes} for sequences with at least 5 annotations (with standard error).}
 \end{figure}
+
+
+%figure Rank corr for Isola et al. et han et al., pour montrer que le nombre d'annotation sva plus vite pour les videos (mais crowdsourcing vs. laboratoire -- et autres facteurs...)
+
+We implemented the method proposed in \cite{isola_2014_makes} to measure the human consistency. It answers the question: "Are the videos that are more memorable (or forgettable) for a group of observers also more likely to be remembered (or forgotten) by a different group of observers? The figure \ref{fig:human_consistency}(b) presents the curve of the human consistency for each video sequence. It answers the question: "How many annotations for each do we need for the human consistency stop varying?'
+
+
+
 
 %compounding factor: most annotated sequences are also the most memorable group, which could artificially increase the Spearman's correlation). 
 
@@ -420,7 +465,7 @@ Individual and contextual differences, besides mandatory random variability, exp
 If we compare the curve obtained by \cite{khosla_2015_understanding} (\ref{fig:human_consistency}(a))and the curve we obtained (b), we can note than we attain human consistency far more quickly than Khosla \textit{et al.}. At least three arguments go in the way of this results. First, we work with videos and they work with images ; maybe video memorability is more universal than image memorability because of the higher length of this kind of stimulus (but We can also note that the maximum human consistency is close for images and videos!!). Second, we obtain a measure of real long term memorability, and not a memorability measured some minutes after encoding step ; maybe this measure more representative of what is really memorable. Finally, we can advance the fact that in-lab experiment enable to obtain better memorability measure than crowdsourcing one, resulting to attain maximum human consistency earlier.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Generic vs. Typical sequences}
+\subsection{Neutral and typical sequences}
 % Tester s'il y a une différence entre les deux et en tirer des conséquence quant à leur validité --> How objective our measure of memorability is?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
