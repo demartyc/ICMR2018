@@ -185,10 +185,6 @@ We finally propose a deep-learning model base to predict video memorability, com
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{INTRODUCTION}%nb of sections %2 PAGES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%citer Qomex
-%citer Deep learning emotional images bias
-
-%%%%%%%%%%%%%%%%%%%%%%
 %Opening
 Enhancing the relevance of multimedia occurrences in our everyday life requires to imagine new ways to organize -- in particular, to retrieve -- contents.
 Like other metrics of video "importance", such as aesthetics or interestingness, memorability can be regarded as a particularly relevant element to help us picking a video among several ones, with the advantage of a possibility to be measured less subjectively.
@@ -201,32 +197,31 @@ Video memorability prediction is however a new field, and there are only two stu
 
 %No dataset available
 At least two important problems could explained this scarcity of studies.
-Firstly, protocols used in the existing studies are not smart enough, but are questionable.
-Secondly, authors didn't make their data accessible for community, so no database exist.
+
+%1st point: no available dataset
+Firstly, there is no available dataset to train and test models.
 The fact that there exist no dataset to modeling video memorability is the most serious obstacle which prevent video memorability prediction to take off.
 This should be the very first goal of pioneers of this new research field: to provide data to community.
 For images, the pioneers created and made downloadable such a database \cite{isola_2011_makes}, which enable to made image memorability research flourishing.
 The second released database, far larger, launched new possibility for deep learning and enable to obtained the aforementioned really good results \cite{khosla_2015_understanding}.
-Nous pouvons parier qu'il en sera de même pour le champ de la mémorabilité des vidéos.
+We could expect a similar success for video memorability prediction research.
+%A dataset as first objective to launch VM prediction --> Goal of this paper is to participant in the establishment of an adapted protocol
+We think that the existence of such a database with high quality data could have the importance for video memorability that the ones of \cite{isola_2011_makes} and \cite{khosla_2015_understanding} had on image memorability.%in particular for deep learning algortihm which perform the best for images
 
-%A dataset as first objective to launch VM prediction --> Goal of this paper is to participant in th eestablishment of an adapted protocol
-We think that the existence of such a database could have the importance for video memorability that the ones of \cite{isola_2011_makes} and \cite{khosla_2015_understanding} had on image memorability.%in particular for deep learning algortihm which perform the best for images
-This article wants to takes his part to develop such a protocol to collect high quality data, and such a dataset.
+%second point: difficulty to define video unity and VM
+This drives us to the second point: the difficulty to build such a dataset.
+The principle difficulty to define what video memorability and unity should be, and a protocol to measure items according to these definition.
 
-%it's not easy to construct the first dataset
-The establishment of a dataset, in particular of the first dataset of this kind, may not be self-evident.
-Elle nécessite de définir les points cardinaux qui vont guider – et contraindre – les chercheurs qui utiliseront ces premières données disponibles.
+If we consider the studies on image memorability prediction, we could see that, with their database, the cardinal points defined in the very first study \cite{isola_2011_makes} were widely accepted by the community without re-interrogation of what memorability -- of what the models -- really predicted.
+First, it is because Isola \textit{et al.} find a proper and objective way to measure memory performance at a large scale; but it remains that how the authors proceeded is just one way to measure memorability.
 
-Pour preuve, l'influence considérable qu'Isola et al. (puis Khosla et al., de la même équipe, avec leur base de données beaucoup plus conséquente rendue disponible en 2015) ont eu sur les études réalisées dans leur sillage : jusqu'à aujourd'hui, la quasi-totalité des études ayant porté sur la mémorabilité des images ont adopté – avec les bases de données de ces auteurs – leurs définitions de la mémorabilité.
+From what we can imagine that such a dataset for VM will probably have an important influence on future research, one should define very carefully what memorability of video is and what the video as unity means.
+It requires to define the cardinal points that will guide -- and constraint -- researchers that will used the dataset.
 
-Or, la manière dont les auteurs ont mesuré la mémorabilité des images, qui n'est pratiquement jamais rediscutée, n'est qu'une des manières de procéder.
-
-Aussi, si les modèles de prédiction de la mémorabilité des images ont obtenu d'excellents résultats (très proches de ceux qu'on obtiendrait en inférant des résultats d'un groupe d'observateur les résultats d'un autre groupe d'observateurs), qu'est-ce que ces modèles prédisent si bien, en fait ? 
-
-%Difficulty: define video unity; complexity of the videos compare to images
+First, if image in image memorability was obvious, video in video memorability is less obvious.
 Videos are more complex than images. Contrary to images, videos do not constitute clearly defined units, but have supplementary dimensions -- sound and movement -- that makes difficult the definition of what a video is.
 %from ahn et al. Videos contain a synthesis of visual, aural, textual, and 	motion information and generally convey relatively richer 	media content than images.
-
+By an extreme example, is it possible for a model to transfer his capacity to predict memorability from movies-like videos to Youtube-like videos?
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection{Previous work} %Critics of the 2 previous studies
@@ -236,68 +231,44 @@ The availability of two large datasets \cite{isola_2011_makes,khosla_2015_unders
 However, possibly constrained by the difficulty in conducting long crowdsourcing studies, the authors measured memory performance a few minutes after memorization to obtain their memorability annotations.
 As shown in \cite{cohendet_2016_prediction}, this could be a problem if we conceive that memorability reflects a lasting memory performance.
 Indeed, it has long been shown that long-term memories continue to change long after their memorization through an ongoing process called consolidation \cite{mcgaugh_2000_memory}.
-
-In particular, the early work of the psychologist Ebbinghaus showed that the drop in long-term memory performance is particularly strong in the few days immediately following the memorization.
-
-, with a memory performance in recall that asymptotically tends its long-term performance \cite{ebbinghaus_1913_memory}.
-
+In particular, the early work of the psychologist Ebbinghaus showed that the drop in long-term memory performance in recall is particularly strong in the few days immediately following the memorization, after which it asymptotically tends its the almost permanent long-term performance \cite{ebbinghaus_1913_memory}.
 Because several factors are susceptible to influence the consolidation process (such as the emotional content, the semantics, the attention...), which is not a linear decrease for all the memories, it follows that the order of memorability of images is susceptible to change from some minutes to a day after memorization, as it has been found in \cite{cohendet_2016_prediction} with emotional image from of the International Affective Picture System \cite{lang_2005_international}.
-
 A protocol to collect memorability annotations for videos would benefit from the capacity to measure what we will later refer to as "long-term memorability".
-
-
 
 %Critics of Han et al.
 To our knowledge, the first attempt at predicting video memorability had been proposed by \cite{han_2015_learning}. 
-
-
 The authors partially adapted the protocol proposed by \cite{isola_2011_makes} to measure image memorability for videos.
 In contrast to the "memory game" proposed by Isola \textit{et al.} to collect memorability data, their protocol is however much heavier. 
 They used a classical recognition task to measure memory for videos, which consists in two steps: a free viewing task, followed two days later by a recall task.
-
 We can infer from the sparse information authors gave that the task duration, for each of the 20 participants, was about 24 hours (by taking an average video duration half-way between 15 and 30 sec), spread over 10 sessions (5 free viewing and 5 recall tasks) of about 2 hours each.
-
-Authors used the same proportion of fillers in the free viewing and recall tasks (4/5 of fillers and 1/5 of targets), to "to guarantee that viewers are unaware of targets". If it was totally justified in \cite{isola_2011_makes} for which encoding and recall tasks were interlaced, there is here a way to alleviate the task without impacting its quality; indeed, reducing the number of fillers (never reasked videos) in free viewing task would have very week impact on memorability scores (généralement on se passe même de fillers dans les tâches d'apprentissage du matériel).
-
-Still, as pointed by \cite{shekhar_2017_show}, the long time span of the experiment makes difficult the generalization of this protocol, in particular to build an extensive dataset.
-
-Regarding the prediction part, we also agree with these authors to say that "the method used fMRI measurements for predicting memorability, which would be difficult to generalize".
-
+Authors used the same proportion of fillers (i.e. non repeated videos) in the free viewing and recall tasks (i.e. 4/5 of fillers and 1/5 of repeated videos named targets) to, according to them, guarantee that viewers were unaware of targets.
+If it was mandatory in \cite{isola_2011_makes} for which encoding and recall tasks were interlaced, there is here a way to alleviate the task without impacting its quality; indeed, reducing the number of fillers in free viewing task would have very little impact on memorability scores (often authors even use only material interrogated later in learning/free viewing task).
+Furthermore, as pointed by \cite{shekhar_2017_show}, the long time span of the experiment makes difficult the generalization of this protocol, in particular to build an extensive dataset. Regarding the prediction part, we also agree with these authors to say that the method would be difficult to generalize as it used fMRI measurements for predicting memorability.
 
 %Critics of Shekhar et al.
 Another earlier approach was the one of \cite{shekhar_2017_show}.
-The participants passed in crowdsourcing a free viewing task followed by a recall task, for which they had to answer question (such as: "Did you see a man juggling?", "Did you see a car on road?").
-
-%the problem of the questions
-The major drawback of the study comes from this use of questions instead of a recognition task. The "memorability" measured may be due not to memorability of the videos but (also) to the differences between the questions rather than a difference of memorability of the videos. This bias could be of several kinds: difficulty, comprehension (non anglophone people in AMT), easility of imaging), indexage plus facile... C'est d'autant plu sproblématique que ces diffénrece could have drives to a high inter-human consistency not due to memorability attribué à tort à un phénomène de mémoire. C'est d'autant plus problématique que le temps de réponse des partcipants entre dans le calcul de la mémorabilité, ce qui ne peut q'uaccentuer ces biais, et est porbablement responsable de la high human response consistency they observe.
-
-
-Le fait que les questions doivent être créé à la main, et que les choix des questions sont assez limitatifs (par ex avec la question "Did you see a car on road?", il ne peut y avoir de toute la tâche qu'une seule fois une voiture) makes difficult the generalization of this protocol to build an extensive dataset.
-“It was manually ensured that no two textual questions nor any two videos in a sequence were similar in content.” 
-
-
-%Conslusion critics
-Les critiques exposés montre à quel point il est difficile de construire la première base de données pour mesurer la mémorabilité des vidéos. Isola et al. S’en sont très bien sortis, en se cantonnant à une mesure purement objective de la mémoire – tâche de reconnaissance classique –, ce qui leur a permis de lancer le champ de recherche de la mémorabilité des images. Il faudrait en faire de même pour la mémorabilité des vidéos. Cette étude s’inscrit dans cette volonté – non pas de créer un nouveau datasets, mais d’essayer un protocole pour voir s’il est efficient.
-
+The participants performed a crowdsourcing experiment consisted of a free viewing task where they saw a sequences a videos, followed by a recall task for which they had to answer textual question (such as: "Did you see a man juggling?", "Did you see a car on road?").
+The major drawback of the study comes from the use of questions instead of a recognition task.
+Indeed, the memorability scores computed for the videos may reflect not only the differences in memory performances but also the differences between the questions in terms of difficulty, ease of understanding (in particular for the non-anglophone people that works with Amazon Mechanical Turk), of imaging, ease to retrieve a scene by some words more the by others... Especially since the authors took into account the response time of the participants to calculate the memorability scores of the videos. One will note that this potential bias could have also affect the measure of inter-human consistency.
+Furthermore, the questions are handcrafted, and the choices for types of questions and videos are very limiting (e.g. the question "Did you see a car on road?" implies that in a whole experimental session you can have just one car on a road), and the authors manually ensured that no textual questions nor videos in a sequence were similar in content. This makes difficult the generalization of this protocol to build an extensive dataset.
+%%% ATT!! The have tested complexity of textual questions, but there is the other problems! mesure insufisante pour rendre compte de la difficulté réelle des questions.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection{Goals of our study}
+%Conclusion critics
+It appears from the review of previous work that video memorability prediction research is in its early stage.
+We still need to find a proper way to collect quality data in order to build a large dataset to bring video memorability prediction research to a new level.
 %1/ we want a protocol
-To sum up, we want a protocol:
-- which could be extended to create a large dataset in case it shows its quality
-
-- that measure a long-term memorability: as a longitudinal study would be difficult to generalized to create a large dataset, we decide to measure the memoray of participants created previously to the experiment.
-
+The present study aims to be part of these efforts to reach such a way.
+As aforementioned, we also want this protocol to measure a "long-term" memorability.
+This can be achieved with a study that have a long time span, where learning and recall tasks are seperated by a certain amount of time, or by measuring a memory created prior to the experiment.
+Because crowdsourcing is a priori the only practicable way to experimentally collect great amount of annotations, we focused on the last choice more suitable for crowdsourcing as it requires only one connexion to the measurement application.
 %2/ we want an all-around paper
-D'autre part, all around paper
-
+To assess the quality of the data produced by the protocol, we analyzed the data obtained from different perspectives, in particular in order to shed light on some potential human or task-related factors susceptible to influence memorability as it is measured by the protocol, that are numerous \ref{cohendet_2016_using}.
 %3/ we want to meet the challenge of video memorability prediction
-Finally, we want -- thanks to our protocol -- to participate in the VM prediction challenge.
-
+Thanks to the data collected, we participate in the VM prediction challenge.
 %Conclusion intro
-The rest of the article is as follows: part 2 concerns the ground truth collection, part 3 the study of the collected data and the calculation of the memorability scores of the sequences, part 4 predicting memorability, and part 5 the conclusion and intended future work.
-
-
+The structure of the rest of the article follows these points: part 2 concerns the ground truth collection, part 3 the study of the collected data and the calculation of the memorability scores of the sequences, part 4 predicting memorability, and a conclusive part 5 where we talked about intended future work related to video memorability prediction.
 
 %%%%%%% POTENTIALLY %%%%%%%
 % Response time: must we exmploit it to calculate memorability scores?
@@ -307,7 +278,6 @@ The rest of the article is as follows: part 2 concerns the ground truth collecti
 
 % Personalization of the data
  %Taking into account human factors %see results Logistic regression vs. SVM
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Construction of the dataset}
@@ -330,6 +300,7 @@ By contrast, the meaning a sequence conveyed was susceptible to change depending
 
 Because the semantics is linked to the memorability of images \cite{isola_2014_makes}, so probably to videos, therefore their memorabilities, we chose this definition susceptible to be extensive to predict other dataset.
 
+%PARCE QUE CEST UNE PETITE BASE DE DONNEES => POUR UNE PLUS GROSSE, CE PROBLEME N4AURA PAS ROP D'EFFET.
 
 
 %hence, in our idea, fostering semantics coherence of the sequences equal to diminish the difficulty of the computational models to learn without impairing their capacity to generalize.
@@ -405,161 +376,170 @@ The videos were displayed on a ????? inch monitor (TV SONY Bravia ?????) with a 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{STUDY OF THE MEMORABILITY ANNOTATIONS}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In this section, we describe in detail the ground truth data collected thanks to the protocol described in the previous section.
-We conclude by calculating the memorability scores finally used to feed our prediction models.
-
-For the results we retain only the 660 sequences that had been seen at least 4 times as targets, and remove sequence selected from films too few participants had seen.
-
-
-
+In this section, we analyze the ground truth data collected thanks to the protocol described in the previous section.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Overview}
-The average memorability of the test was $46.71\%$ (SD of $14.65\%$). The average false alarm rate was $4.16\%$ (SD of $5.27\%$).
+\subsection{Memorability scores calculation}
+After collecting the data, we measured the average percentage of correct detections for all participants, of $46.71\%$ (SD of $14.65\%$), and the average false alarm rate, of $4.16\%$ (SD of $5.27\%$).
+Then we assigned a memorability score to each sequence, defined as the percentage of correct detections by participants.
+We retained only the 660 sequences that had been seen at least 4 times as targets, and remove the sequences chosen from films seen by too few participants.
+On average, each sequence was viewed as target by $10.7$ participants, and as filler by $10.5$ participants.
 
+The figure \ref{fig:overview} provides a sample of sequences sorted according to their memorability (a) and a distribution of the sequences according to their degree of memorability (b).
 
-On average, each sequence was viewed as target by $10.7$ participants. 
-On average, each sequence was viewed as filler by $10.5$ participants. 
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Sequences' memorabilities}
-%A sequence's memorability is defined as the percentage of correct detections by participants.
-
-
-
-%Corriger score par moyenne de mem du film -- est-ce que ça a un sens ? Par le nombre de vue du film ? par le moment où il a été vu?
-
+%Examples of ++/-- memorable sequences and Distribution of memorability scores 
+\begin{figure}[!htbp]
+	\centering
+	\subfloat[]{\includegraphics[width=0.45\columnwidth]{figures/key_frame_mem_examples.png}}
+	\quad
+	\subfloat[]{\includegraphics[width=0.45\columnwidth]{figures/memorability_scores_distribution.png}}
+	\quad
+	\caption{\label{fig:overview}(a) Sample of the dataset with key frames of sequences sorted from most memorable (left) to less memorable (right). (b) Distribution of the memorability scores.}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Consistency analysis}
-The histogram presented in the figure \ref{fig:human_consistency}(a) corresponds to the number of sequences for each possible number of annotations.
+%global consistency calculation
+We implemented the method proposed in \cite{isola_2014_makes} to measure the human consistency.
+We randomly split our 104 participants into two independent halves, and calculate how well sequence memorability scores from the first half of the participants match with sequence memorability scores from the second half of the participants.
+Averaging over 25 random split half trials, we calculated a Spearman's rank correlation $\rho$ of $0.57$ between these two sets of scores.
+%Individual and contextual differences, besides mandatory random variability, explain the $1-.57$ part of the memorability that is not universally derivable from the intrinsic informations of the videos.  
 
-%Fig
+%Fig Consistency
 %Histogram of number of nb of sequences per possibble nb of annotations
 %Curve of human consistency
 \begin{figure}[!htbp]
 	\centering
-	\subfloat[Number of sequences associated with number of annotations.]{\includegraphics[width=0.3\columnwidth]{figures/histogram_nb_sequences_for_nb_of_annotations.png}}
+	\subfloat[]{\includegraphics[width=0.45\columnwidth]{figures/histogram_nb_sequences_for_nb_of_annotations.png}}
 	\quad
-	\subfloat[(b) Human consistency for videos for us]{\includegraphics[width=0.3\columnwidth]{figures/Measure_of_human_consistency.png}}
-	\caption{\label{fig:human_consistency}(a) Number of sequences for each possible nb of annotations per sequence. (b) Human consistency averaged over 25 random splits (right) obtained using the method proposed by \cite{isola_2014_makes} for sequences with at least 5 annotations (with standard error).}
+	\subfloat[]{\includegraphics[width=0.45\columnwidth]{figures/Measure_of_human_consistency.png}}
+	\quad
+	\caption{\label{fig:human_consistency}(a) Number of sequences for each possible nb of annotations per sequence. (b) Human consistency averaged over 25 random splits (right) obtained using the method proposed by \cite{isola_2014_makes} for sequences with at least 5 annotations (with standard error and linear trendline).}
 \end{figure}
 
-
-%figure Rank corr for Isola et al. et han et al., pour montrer que le nombre d'annotation sva plus vite pour les videos (mais crowdsourcing vs. laboratoire -- et autres facteurs...)
-
-We implemented the method proposed in \cite{isola_2014_makes} to measure the human consistency. It answers the question: "Are the videos that are more memorable (or forgettable) for a group of observers also more likely to be remembered (or forgotten) by a different group of observers? The figure \ref{fig:human_consistency}(b) presents the curve of the human consistency for each video sequence. It answers the question: "How many annotations for each do we need for the human consistency stop varying?'
-
-
-
-
-%compounding factor: most annotated sequences are also the most memorable group, which could artificially increase the Spearman's correlation). 
-
-
-
-Individual and contextual differences, besides mandatory random variability, explain the $1-.65$ part of the memorability that is not universally derivable from the intrinsic informations of the videos.  
-
-%Compare our and Khosla et al. curve dire que -- video + non-crowdsourcing + "real" long-term memory -- explique qu'on obtient avec beaucoup moins d'annotation la même human congruency.
-If we compare the curve obtained by \cite{khosla_2015_understanding} (\ref{fig:human_consistency}(a))and the curve we obtained (b), we can note than we attain human consistency far more quickly than Khosla \textit{et al.}. At least three arguments go in the way of this results. First, we work with videos and they work with images ; maybe video memorability is more universal than image memorability because of the higher length of this kind of stimulus (but We can also note that the maximum human consistency is close for images and videos!!). Second, we obtain a measure of real long term memorability, and not a memorability measured some minutes after encoding step ; maybe this measure more representative of what is really memorable. Finally, we can advance the fact that in-lab experiment enable to obtain better memorability measure than crowdsourcing one, resulting to attain maximum human consistency earlier.
+%per nb of annotations consistency %comparison with image memorability
+We reproduced this calculation to obtain 25 Spearman's correlation coefficients as a function of the mean number of scores per video, presented in figure \ref{fig:human_consistency}(b).
+This curve is to be compared with the histogram presented in figure \ref{fig:human_consistency}(a), which shows that the number of sequences for each number of annotations was unequal.
+According to the curve, we achieved a mean consistency of $.70$ around 18 annotations, which is consistent with the previous attempt of \cite{han_2015_learning}, were it is the maximum consistency they achieve.
+It is interesting to compare these results to the one obtained by authors that have collected image memorability annotations \cite{isola_2011_makes,khosla_2015_understanding}.
+In these studies, the authors reached such a correlation of $.70$ after 80 annotations per image, which is much later.
+The experimental protocols and conditions are different between all these studies; in particular, emphasis must be placed on two points.
+First, in the present studies and \cite{han_2015_learning}, we measured a long-term memory performance later than two days after the memorization, that is to say after the biggest losses in memory performance, as was previously stated. By contrast, \cite{isola_2011_makes,khosla_2015_understanding} measured memory performance from dozens of seconds to a few minutes after memorization. 
+Second, videos memorability annotations were collected through in-lab experiments, and images annotations through crowdsourcing experiments.
+These two confound factors may have contributed to the shortest number of annotations necessary to reach a high human consistency.
+However, it would be interesting in future work to confirm if an important difference exists between images and videos regarding to the number of annotations necessary to achieve a high human response consistency.
+Apart from the conclusions we could draw about the universality of the intrinsic memorability of videos compare to images, this would mean that the magnitude of the work to carry out to build an extensive database for video memorability prediction is substantially smaller than one could expect from work on image memorability prediction.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Neutral and typical sequences}
 % Tester s'il y a une différence entre les deux et en tirer des conséquence quant à leur validité --> How objective our measure of memorability is?
+We select two sorts of sequences from the films: neutral and typical ones.
+For neutral sequences, participant had no element to guess that the sequence came from a particular film; for typical sequence, participants could guess that the sequence came from a particular film.
+The instructions was made clear, that we wanted that participants answered when they recognized a sequence, not when they guess that they came from a particular film they answered during the previous questionnaire film they had seen.
+Thus, the response for the neutral sequences is objective, but there is subjectivity in the typical sequence.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Quality of the movies}
-dvdrip vs. HD 720-1080 => Difference of memorability? => Interesting
+A non-parametric Wilcoxon rank sum test showed a significant difference in memorability between the neutral ($\mu=.24$) and typical ($\mu=.53$) sequences: $Z=10.22, p<.00001$.
+We expected a result in this sens because neutral sequence contained less contextual elements useful to recognize that a segment comes from a particular film.
+Because of this compounding factor this results does not mean that participants tended to guess -- rather to purely recognize -- sequences drawn from films they have seen.
+
+We also observed a difference in human consistency for memorability responses between the neutral ($\mu=.45$) and typical sequences ($\mu=.41$): $Z=2.75, p<.01$.
+The human congruency was slightly higher for neutral than for typical sequences.
+Along with the comments collected from the participants, who have as a majority reported difficulty to know if they guess or just recognized, this suggests that human congruence is higher for the objective measure than for a one with a part of subjectivity. In another context than with colleagues of our company, who highly probably respected the instructions -- in particular in crowdsourcing, which as we aforementioned stated that it must be used to built an extensive database -- it is probable that this difference would increase.
+Certainly, this result has to be confirmed by further studies, but it could be one of the weakness of our protocol to collect extensive data.
+
+We can also note that the false alarm rate was low for neutral sequences ($\mu=.05$) as well as for typical sequences ($\mu=.03$).
+Specifically, we expect lucky confusions to account for little of correct detections on average for the two sorts of sequences.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Response time}
-Previous authors have integrated response time in their score of memorability. We pose here the following question: "Is the degree of memorability related to response time?" to answer the question: "Should we exploit response time to correct memorability score?" We hypothesized that the most memorable the sequences, the faster the participant will answer (no instructions to answer faster: just to answer durgin the 10-sec display).
-
 %figure Mean response time vs. degrees of memorability
 	%with SEM
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=\columnwidth]{figures/Response_time_vs_Memorability.png}
-	\caption{\label{fig:response_time_vs_memorability}Mean response time for each memorability degree (error bars correspond to SEM).}
+	\caption{\label{fig:response_time_vs_memorability}Mean response time for each memorability degree for targets for which participants answered(error bars correspond to SEM).}
 \end{figure}
 
-We observed a Person's correlation of $-0.36 (p<.0001)$ between the response time on the target and their memorability scores. This is consistent with the figure \ref{fig:response_time_vs_memorability}. In other words, the higher the memorability, the lower the response time tends to be, suggesting that a sequence most memorable is also a sequence for which we rapidly detect that it is memorable. This is consistent with what we expected: empirically, we observe during passation that participant tend to answer as soon as they recognized the sequence.
+The figure \ref{fig:response_time_vs_memorability} shows that the response time to do a correct detection decreases when the memorability of the sequence increase.
+We also observed a  Person's correlation of $-0.36 (p<.0001)$ between the response time on the target and their memorability scores.
+These result show that the participants tended to answer quicker when the sequences were memorable than non memorable, even though the participants did not receive any instruction to answer quickly.
+This suggest two things.
+First, that participants tends to naturally answer rapidly after having recognized the sequence.
+Second, either that the most memorable sequences are also the sequences the most accessible in memory, or that the most memorable sequences have more early recognizable elements than less memorable sequences.
+However, the way we select sequences and the linear decrease in response time with memorability increasing showed in figure \ref{fig:response_time_vs_memorability} go in the direction of the first hypothesis.
 
 %target vs. fillers
-It is interesting to link it to the response time for answer on targets (i.e. correct detections) vs. on fillers (i.e. false alarms). The global mean response time was $4.87 sec$ on targets and $5.96 sec$ on fillers. A Student t-test for different sample size show a significant difference ($t(2836)=-5.34, p<.0001$). This means that the participants globally answered more rapidly for targets (i.e. correct detections) than for fillers (i.e. false alarm). One explanation is that participants hesitated more for fillers they answered on, increasing their response time.
+It is interesting to link it to the response time for answer on targets (i.e. correct detections) vs. on fillers (i.e. false alarms).
+The global mean response time was $4.88 sec$ on targets and $5.90 sec$ on fillers.
+A Wilcoxon rank sum test showed a significant difference ($Z=-5.10, p<.00001$), in the way participants globally answered more rapidly for targets (i.e. correct detections) than for fillers (i.e. false alarm).
+One explanation is that participants hesitated more for fillers they answered on than to make a correct detection, increasing their response time.
+This hesitation would reinforce the hypothesis that the most memorable sequences are most easily accessible in memory: if it has just been a question of a difference in the early recognizable elements that had explained that participants answered faster for the most memorable sequences, and not a question of hesitation -- i.e. of accessibility in memory --, the response time would have been the same for false alarm than for correct detection.%consistent with memory accessibility in psychology
+%L’étude de la morphologie des distributions nous enseigne que le temps de réponse tend à être uniforme pour les fillers, alors que les participants répondent plus vite pour les fillers.
 
-It tells us something on memory, that the memories are not evident but more blurred. This is an important point, taht explained why, in our discussion, we propose to turn to a "totally objective" measure of memory to constitute a dataset for video memorability prediction: if the participants hesitated, so they choice to answer or not was probably impacted by the way they answered the instructions and their own sensibility to the risk.%=> corrigé mémorabilité par individu ?
+It also point out the fact that memories of videos are generally not obvious but more blurred.
+This is an interesting point to connect with the fact that human consistency is lower for typical than for neutral sequences: because of the non obviousness of if they had memories or not, the part of subjectivity for typical sequences could have fostered participants to answer when they hesitated if they were guessing that a sequence came from a film they had seen or remembering it.
+The higher degree of memorability of typical sequences compare to neutral ones could be partly due to this factor too.
+Among other, this is also an argument in favour of the most "objective" possible measure to choose to constitute an extensive dataset for video memorability prediction.
 
-%How to exploit the response time in the prediction models? --> two potential models for memorabilit prediction
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Evolution of the memorability along time}
-%Use order positions for that (e.g. mean memorability for position 1, 2... 120)
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%tester la mémorability de séquences très proches (prise à intervalles très proche + vérif = même scène)
-
-%indoor/outdorr comme isola et al. mais en contrecarrant l'effet de la couleur -- car ils espliquent que c'est par la corrrélation entre couleur et mémorabilité est expliqué par le fait que les couleurs plus froides sont d'exté.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{New manner to compute memorability scores: take into account time and FA}
-%Une nouvelle manière pour prendre en compte les FA dans les scores de mémorabilité applicable à l'étude de la mémorabilité sur les images (si fonction : en parler dan sl'intro comme quoi les gens ne prennent jamais en compte les FA quoiqu'elles puissent être exploiter)
-%Ce qui à la fin de cette section vient avant permet de conclure cette partie en disant : la meilleure façon de calculer les scores de mémorabilité, c'est comme ça.
-
-
-
-%%%
-\subsubsection{Participants' performance}
-% The question here is: "Must we correct our memorabiliy scores by taking into account the mean memorability of the participants --> No, of the film --> No' --> So the point here is just to provide an overview.
-The average memory performance was the following: the average percentage of correct detection was $48.2\%$ (SD of $14.1\%$) and the average percentage of false alarms was $4.78\%$ (SD of $5.63\%$).
-
+To conclude this section, the degree of memorability sounds to be naturally related to response time.
+Therefore, we could imagine to exploit in the calculation of memorability score.
+That is what \cite{shekhar_2017_show} did in their previous attempt to construct their dataset to predict video memorability: they integrated response time in the calculation of the memorability score of their videos as the principal element (even if, in this case, the aforementioned problem of the use of questions could have influenced their results).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Logistic regression vs. SVM to personalize prediction model}
-%Regression qui prend en compte tous les facteurs (voir ma thèse)
 %See QoMEX paper to present the data
+
+%figure Logistic regression
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=\columnwidth]{figures/Logistic_regression.png}
+	\caption{\label{fig:logistic_regression}.}
+\end{figure}
 
 %We used the following factors:
 	%Occidental/non-occidental, because the 100 movies are occidental (expept slumdog millionaires...)
 
+%Corr Evolution of the memorability along time
+ %Use order positions for that (e.g. mean memorability for position 1, 2... 120)
+
+%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Other results possible
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Film genre and IMDB ratings}
-%test the momorability od the sequences compare to the mean one of the movie.
-%Correct bu the mean participant's performance
-%And maybe other IMDB annotations/labels
+%\subsection{Mean memorability of the sequences compare to the film they come from}
+	%Corriger score par moyenne de mem du film -- est-ce que ça a un sens ? Par le nombre de vue du film ? par le moment où il a été vu?
 
-\subsection{Context}
-%Analyse the context (order of video presentation) influent the memo: to be check if we have enough information?
-%Une vidéo par rapport à toutes les autres différentes à un impact sur sa mem ?
-%S'inspirer de la technique de Bylinskii
+%\subsection{Quality of the movies}
+	%dvdrip vs. HD 720-1080 => Difference of memorability? => Interesting
 
-\subsection{Features linked to memorability}
-%tester ces features comme dans 'What makes a photograph...'
-% Indoor/Outdoor, low-level visal feautures (color... -- i.e. as in isola et al.), salinecy maps
+%\subsection{Film genre and IMDB ratings}
+	%test the momorability od the sequences compare to the mean one of the movie.
+	%Correct bu the mean participant's performance
+	%And maybe other IMDB annotations/labels
 
-\subsection{Indoor \textit{.vs} outdoor scenes}
+%\subsection{Context}
+	%Analyse the context (order of video presentation) influent the memo: to be check if we have enough information?
+	%Une vidéo par rapport à toutes les autres différentes à un impact sur sa mem ?
+	%S'inspirer de la technique de Bylinskii
+	%tester la mémorability de séquences très proches (prise à intervalles très proche + vérif = même scène)
 
+%\subsection{Features linked to memorability}
+	%tester ces features comme dans 'What makes a photograph...'
+	% Indoor/Outdoor, low-level visal feautures (color... -- i.e. as in isola et al.), salinecy maps
 
+%\subsection{Indoor \textit{.vs} outdoor scenes}
+	%indoor/outdoor comme isola et al. mais en contrecarrant l'effet de la couleur -- car ils expliquent que c'est par la corrrélation entre couleur et mémorabilité est expliqué par le fait que les couleurs plus froides sont d'exté.
 
-%add other relevant points found in MIT papers e.g.
+%\subsection{Other points}
+	%add other relevant points found in MIT papers e.g.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Memorability score calculation}
-According to what was presented before in tis section, this is how we finally decided to compute our memorability scores...
-
-%quality of the movies: dvdrip vs. HD 720-1080 => Difference of memorability? => Interesting
-
+%\subsection{New manner to compute memorability scores: take into account time and FA}
+%Une nouvelle manière pour prendre en compte les FA dans les scores de mémorabilité applicable à l'étude de la mémorabilité sur les images
+%Ce qui à la fin de cette section vient avant permet de conclure cette partie en disant : la meilleure façon de calculer les scores de mémorabilité, c'est comme ça.
+% The question here is: "Must we correct our memorabiliy scores by taking into account the mean memorability of the participants --> No, of the film --> No' --> So the point here is just to provide an overview.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MEMORABILITY PREDICTION} %for Khartik
@@ -578,6 +558,11 @@ According to what was presented before in tis section, this is how we finally de
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{CONCLUSIONS AND FUTURE WORKS}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%avantages de notre dataset: long-term memorabity
+%Inconvénient: mesure avec une part de subjectivité
+
+%we propose to turn to a "totally objective" measure of memory to constitute a dataset for video memorability prediction
+
 % Nous construisons actuellement une base de données de grande ampleur avec une mesure purement objective de la mémoire.
 %Nulle part les auteurs ne parlent de mémoire à long terme, à court terme… => Ils appréhendent un problème par nature interdisciplinaire d’un point de vue purement computer science => Or la qualité des données est ce qui détermine ce que les modèles vont finalement prédire. // %D'abord, le test de mémoire interroge une mémoire de vidéos vues longtemps (en moyenne, probablement plusieurs mois ou années) auparavant.
 %cite QooMEX for personlization of memorability model
