@@ -26,6 +26,8 @@
 \usepackage{balance}
 \usepackage{caption}
 \usepackage{graphicx}
+\usepackage{hhline}
+\usepackage{multirow}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT's Identification
@@ -389,9 +391,9 @@ The figure \ref{fig:overview} provides a sample of sequences sorted according to
 %Examples of ++/-- memorable sequences and Distribution of memorability scores 
 \begin{figure}[!htbp]
 	\centering
-	\subfloat[]{\includegraphics[width=0.45\columnwidth]{figures/key_frame_mem_examples.png}}
+%	\subfloat[]{\includegraphics[width=0.45\columnwidth]{figures/key_frame_mem_examples.png}}
 	\quad
-	\subfloat[]{\includegraphics[width=0.45\columnwidth]{figures/memorability_scores_distribution.png}}
+%	\subfloat[]{\includegraphics[width=0.45\columnwidth]{figures/memorability_scores_distribution.png}}
 	\quad
 	\caption{\label{fig:overview}(a) Sample of the dataset with key frames of sequences sorted from most memorable (left) to less memorable (right). (b) Distribution of the memorability scores.}
 \end{figure}
@@ -411,7 +413,7 @@ Averaging over 25 random split half trials, we calculated a Spearman's rank corr
 	\centering
 	\subfloat[]{\includegraphics[width=0.45\columnwidth]{figures/histogram_nb_sequences_for_nb_of_annotations.png}}
 	\quad
-	\subfloat[]{\includegraphics[width=0.45\columnwidth]{figures/Measure_of_human_consistency.png}}
+%	\subfloat[]{\includegraphics[width=0.45\columnwidth]{figures/Measure_of_human_consistency.png}}
 	\quad
 	\caption{\label{fig:human_consistency}(a) Number of sequences for each possible nb of annotations per sequence. (b) Human consistency averaged over 25 random splits (right) obtained using the method proposed by \cite{isola_2014_makes} for sequences with at least 5 annotations (with standard error and linear trendline).}
 \end{figure}
@@ -455,7 +457,7 @@ Specifically, we expect lucky confusions to account for little of correct detect
 	%with SEM
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[width=\columnwidth]{figures/Response_time_vs_Memorability.png}
+%	\includegraphics[width=\columnwidth]{figures/Response_time_vs_Memorability.png}
 	\caption{\label{fig:response_time_vs_memorability}Mean response time for each memorability degree for targets for which participants answered(error bars correspond to SEM).}
 \end{figure}
 
@@ -491,7 +493,7 @@ That is what \cite{shekhar_2017_show} did in their previous attempt to construct
 %figure Logistic regression
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[width=\columnwidth]{figures/Logistic_regression.png}
+%	\includegraphics[width=\columnwidth]{figures/Logistic_regression.png}
 	\caption{\label{fig:logistic_regression}.}
 \end{figure}
 
@@ -544,189 +546,172 @@ That is what \cite{shekhar_2017_show} did in their previous attempt to construct
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MEMORABILITY PREDICTION} %for Khartik
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Until now, we have seen how we collected data and memorability annotations from users.
+
+Until now, we have presented the video collection and the annotation protocol. 
 We then computed memorability scores and analyzed how different users fared in remembering the video sequences from the movies they have already watched.
-In this section, we move towards building a machine learning model that can learn and then predict the memorability scores of a video from its audio-visual features. 
-We pose the problem of predicting memorability scores as a standard regression problem and Figure \ref{prop-apprch} illustrates the different steps in our method.
-From the figure, we can see that the video sequences are converted into feature vectors and then a regression model is trained that can in-turn predict the memorability scores for new video sequences.
+In this section, we move towards building a machine learning model that can learn and then predict the memorability score of a video from its audio-visual features. 
+We pose the problem as a standard regression problem and Figure \ref{prop-apprch} illustrates different steps in our method.
+First, we can see that the video sequences are converted into feature vectors and then a regression model is trained that can in-turn predict the memorability scores for new video sequences.
 In this following sub-sections, we explain our choice of features, models to address the problem in hand.
 
 \begin{figure}[h]	  
   \centering
     \includegraphics[width=0.9\columnwidth]{figures/approach.pdf}
-		\caption{Proposed approach for automatically predicting memorability scores.}
+		\caption{Proposed approach for memorability score prediction.}
     \label{prop-apprch}
 \end{figure}
 
 Before we go into the technical details about the different audio-visual features and regression models we explored, we will talk about how we split our dataset.
 We split our dataset, at the level of movies, into training (70\%), validation (15\%) and test (15\%) data, which translates into 70 movies in the training set and 15 movies each in the validation and test sets.
-We chose to split our dataset at the level of movies, instead of the video sequences, in order to avoid sequences from the same movie being present in the train as well as the evaluation set (validation+test).
+We chose to split our dataset at the level of movies, instead of the video sequences, in order to avoid sequences from the same movie being present in the training as well as the evaluation (validation+test) set.
 
 \subsection{Feature extraction}
 \label{feat-extr}
 We explore a variety of audio-visual features in building a model that can predict memorability scores for new video sequences.
 We mostly stick to state-of-the-art deep learning features that have been proposed in vision and audio research communities for tasks like video classification \cite{c3d-feat}, event detection \cite{audioset-feat}, image captioning \cite{caption-feat}, and concept detection \cite{sb-feat}. 
 
-We use the features extracted from the C3D model, a 3-dimensional convolutional network proposed for generic video analysis \cite{c3d-feat}. 
-The main motivation to use these features is that these features try to encode the motion information in the video.
+\subsubsection{Spatio-temporal visual features (C3D)}
+\label{c3d-feat}
+These features are extracted from the C3D model, a 3-dimensional convolutional network proposed for generic video analysis \cite{c3d-feat}. 
+The main motivation to use C3D is that it encodes both the spatial and temporal information in the video.
 The model has been proposed for video analysis and is not an extension of a model for image analysis, unlike other state-of-the-art models like VGG16 \cite{vgg16}.
 We use the model trained on the Sports-1M dataset \cite{c3d-feat} that is provided by the authors of the paper.
-We explore the output of the 3 fully connected layers of the network: fc6, fc7, and fc8 with a dimensionality of 4096.
-Since the dimensionality of the features is very high, we also explore a dimension reduction method (Principal Component Analysis) for modelling.
+We use the output of the fully connected layer -- fc6 of the network with a dimensionality of 4096.
+Since such dimensionality is high compared to other features, we explore the use of principal component analysis (PCA) for the dimension reduction.
 
-Google Inc. recently released a large-scale dataset of manually annotated events: AudioSet \cite{audioset-feat}. 
-The dataset consists of 10-second audio clips taken from YouTube videos along with code to extract 128-dimensional embeddings for your own audio clips.
-We use these features as they are state-of-the-art in the audio event detection research and events could play a major role in how people remember sequences in movies.
-We extract the 128-dimensional embeddings for our dataset and use these embeddings in training the regression models.
+\subsubsection{Audio features (AudioSet)}
+\label{as-feat}
+Using a recently released large-scale dataset of manually annotated events: AudioSet \cite{audioset-feat} and the corresponding event detection models, we extract 128-dimensional embeddings for each audio track associated with a video in our dataset.
+We use these embeddings for training the regression models.
+The motivation to use these features is that they are state-of-the-art in the audio event detection research and events could play a major role in how people remember sequences in movies.
 
-Now, we move onto features related to emotion.
-Emotion and memory are correlated \cite{}, which is why we look at emotion related features in building a model for memorability prediction.
-For emotion from visual content, we resort to a visual sentiment concept detector: Sentibank \cite{sb-feat}.
+\subsubsection{Emotion related features (SentiBank and Affect)}
+\label{emo-feat}
+As research in psychology showed that emotion and memory are highly correlated \cite{emo-mem}, we investigate the use of emotion-related feature in our prediction system.
+For emotion from visual content, we resort to a visual sentiment concept detector: SentiBank \cite{sb-feat}.
 SentiBank is a set of 1200 trained visual concept detectors providing a mid-level representation of sentiment from visual content.
 We use the binary code for concept detection, from images, provided by the authors.
 We sample one frame for every second of the video sequence in our dataset, resulting in 10 frames per video sequence.
-For each of these 10 frames, we run the sentibank concept detector and obtain two pieces of information: concepts with probabilities and features.
+For each of these 10 frames, we run the SentiBank concept detector and obtain two pieces of information: concepts with probabilities and features.
 Concepts are adjective--noun pairs and the probability represents how likely this concept is depicted visually in that particular frame.
+Examples of some concepts in the SentiBank ontology are: young driver, scary face, terrible pain etc.
 We rank the concepts based on the probability of their occurrence in the frame and take the top-50 concepts.
-For each of the 50 concepts, we extract 300-dimensional word2vec \cite{word2vec} embeddings by training on english wikipedia corpus and taking an average of all the vectors to obtain a single vector per frame.
+For each of the 50 concepts, we extract 300-dimensional word2vec \cite{word2vec} embeddings, using a model trained on english wikipedia corpus.
+We then take an average of all the vectors to obtain a single vector per frame.
 We repeat this process for all the 10 frames and take the average of all the vectors to obtain a single feature vector for each video.
 Sentibank detectors also provide 4096-dimensional features for each frame and we take the average across all the frames to obtain one 4096-dimensional feature vector for each video.
 In the end, we use two features: 300-dimensional concept vectors and 4096-dimensional feature vectors as features to build a model for memorability prediction.
+
 Emotion will also be embedded in the audio signal and hence we resort to an audio-visual analysis of the video sequence to obtain arousal and valence scores \cite{affect}.
 Arousal is the dimension of emotion that measures the excitement in the video, while valence measures whether the video happy or sad, following a circumplex model of affect \cite{affect-model}.
-For each frame in the video sequence, we compute the arousal and valence scores using the methods proposed in \cite{affect}.
+For each frame in the video sequence, we compute the arousal and valence scores using the method proposed in \cite{affect}.
 We concatenate the arousal and valence scores for the first 200 frames in each video sequence resulting in a 400-dimensional feature vector (200 for arousal and 200 for valence) for a video.
 
-In addition to emotion, semantics also play a role in memory.
-We utilize the ongoing research in image captioning to capture the semantics \cite{caption-feat}.
-We use the code provided by the authors to extract captions for videos in our dataset.
+\subsubsection{Visual semantic features (Image captions)}
+\label{sem-feat}
+Visual semantics are known to play an important role in memorability \cite{sem-mem}.
+We utilize the state-of-the-art research in image captioning to capture the semantics \cite{caption-feat}.
 We sample one frame for every second of the video sequence in our dataset, resulting in 10 frames per video sequence.
-For each of these 10 frames, we run the caption detector and obtain a caption for the frame.
-For each word in the caption, we extract 300-dimensional word2vec \cite{word2vec} embeddings by training on english wikipedia corpus and taking an average of all the words to obtain a single vector per frame.
+For each of these 10 frames, we run the caption detector (code provided by the authors) and obtain a caption for the frame.
+For each word in the caption, we extract 300-dimensional word2vec \cite{word2vec} embeddings and taking an average of all the words to obtain a single vector per frame.
 We repeat this process for all the 10 frames and take the average of all the vectors to obtain a single feature vector for each video.
 We use these 300-dimensional vectors for building our model.
 
 \subsection{Modelling and evaluation}
 \label{model-eval}
-We discussed the variety of features that we extract from the audio-visual content.
-Now, we turn to picking a regression model that can effectively predict memorability scores for videos in our dataset.
-We choose to go with the Support vector regression model (SVR) \cite{svr}, with a linear and an RBF kernel, for its popularity and wide applicability.
-Since we are posing the memorability prediction problem as a regression, we use the standard regression metric: Mean squared error ($mse$) for evaluation.
-Additionally, we also use the spearmann correlation ($spcorr$) to measure the rank correlation between the predicted memorability scores and the ground-truth.
-This metric gives us an indication of the correlation between the predicted memorability scores and the human annotated memorability scores.
+We used the features discussed in Section \ref{feat-extr} to train an SVR model for the memorability score prediction. 
+We studied the use of two kernels: linear and RBF for their popularity and wide applicability.
+We use the grid search strategy to obtain the best hyper-parameters for SVR: $C$ and $\gamma$.
 
-\section{Memorability prediction results}
+Since we are posing the memorability prediction problem as a regression problem, we use the standard regression metric: Mean squared error ($MSE$) for evaluation.
+Additionally, we also use the spearmann correlation ($SpCorr$) to measure the rank correlation between the predicted memorability scores and the ground-truth.
+This metric gives us an indication of the correlation between the predicted memorability scores and the ground-truth memorability scores.
+
+\subsection{Memorability prediction results}
 \label{pred-res}
 In this section, we will discuss how the models trained on different features perform in predicting memorability scores of new video sequences.
-Each of the video sequences in our dataset has multiple annotations and we pick sequences with atleast 4 annotations for training the models.
-In our dataset, 660 sequences (need to confirm) out of the 700 sequences have atleast 4 annotations.
-One set of results correspond to using these 660 sequences. 
-Another set of results correspond to using 330 sequences (need to confirm) which have atleast 10 annotations. 
+In addition to the variety of features explained in Section \ref{feat-extr}, we also explore a combination of all the features by concatenating all the feature vectors into a single feature vector.
+While concatenating the feature vectors, we use the lower dimensional features for C3D and SentiBank features, obtained after applying PCA to the original set of features.
+Each of the video sequences in our dataset has multiple annotations and we pick sequences with at least 4 annotations for training the models.
+In this way, we eliminate movies that were not seen by a majority of the users who participated in our experiment.
+Additionally, we investigate the effect of number of annotations, for video sequences in the training set, on the performance of the model.
 
-Since we are using an SVR with linear and rbf kernels, we train the models on the training set (70 movies) and validate the model on the validation set (15 movies).
-We pick the model parameters: kernel (linear or rbf), $C$ and $\gamma$ that give the best performance in terms of $mse$ and $spcorr$.
+Since we are using an SVR with linear and rbf kernels, we train the models on the training set (70 movies) and validate the model on the validation set (15 movies), before reporting the final scores on the test set (15 movies).
+We pick the model parameters: kernel (linear or rbf), $C$ and $\gamma$ that give the best performance in terms of $MSE$.
 We retrain the model with these parameters and evaluate on the final test set.
-In the experiments where we use a dimension reduction method (PCA): C3D and SentiBank features, we try to retain 95\% variance in the data while reducing the feature dimensions.
-Tables \ref{res-4-ann} and \ref{res-10-ann} report the memorability prediction results for different features using models trained on sequences with atleast 4 and 10 annotations.
-Observing the tables, you can clearly see that the image captions perform the best among all the features.
-These features capture the semantics in the video and are helping in a better prediction of the memorability scores.
-The next best performance (apart from the combination of all the features) is observed for the features from the AudioSet embeddings.
-Since these embeddings encode the event related information, we can say that the events happening in a video play a significant role in how the video is remembered.
-A combination of all the features is the second best performing feature combination in terms of the metrics.
-We concatenate all the features into a single feature vector and train a model which is then used to predict the memorability scores on the test data. 
-We observe that there is a decline in performance when compared to the best performing features: image captions and this is because the other features are hindering the performance of the regression model.
+In the experiments where we use a dimension reduction method (PCA): C3D and SentiBank features, we retain 95\% of variance in the data while reducing the feature dimensions. 
 
-One of our initial hypotheses was that emotion would play a big role in memorability of a video sequence, supported by literature from psychology.
-We used different set of features to encode the emotion in a video: Affect \cite{affect} and SentiBank \cite{sb-feat}.
-Observing the tables, you can say that the SentiBank features perform reasonably well, but it is not close to the performance of features encoding the semantics.
-This could be because of the choice of features that encode emotion or the performance of the emotion models not being good enough for such an application.
-From the analysis on this dataset and the features we used for encoding emotion, we cannot conclude that emotion plays an important role in memorability.
-
-Comparing the results across the two tables, we observe that the model trained on sequences with atleast 4 annotations performs better than the model trained on sequences with atleast 10 annotations.
-The only exception being the C3D feature, where the model trained on sequences with 10 annotations performs marginally better than the model trained on 4 annotations. 
-Now, we will investigate how the performance changes with increasing number of annotations: from 4 to 15.
-For this, we take the best performing feature: image captions and analyze its performance with models trained on sequences with different number of annotations.
-We take sequences with 4 annotations and keep increasing the number of annotations per sequence to 15.
-In each step, we repeat the training-validation-testing procedure of the previous experiment and compute the evaluation metrics.
-We observed that the $mse$ does not change significantly in each of the steps and hence we provide an demonstration of how $spcorr$ varies with increasing number of annotations.
-Figure \ref{num-ann} demonstrates the result of this experiment, where we observe that beyond 8 annotations the value of $spcorr$ keeps going down.
-
-\begin{table*}[!ht]
-\centering
-    \begin{tabular}{| c | c | c | c |}
-    \hline
-				Feature& Model& $mse$& $spcorr$\\ \hline
-				C3D (4096)& Linear, $C$=1.0& 0.08& 0.26\\ \hline
-				C3D (PCA) (225)& Linear, $C$=1.0& 0.08& 0.21\\ \hline
-				AudioSet (128)& RBF, $C$=1.0, $\gamma$=0.01& 0.06& 0.22\\ \hline
-				Affect (400)& RBF, $C$=1.0, $\gamma$=0.1& 0.07& 0.17\\ \hline
-				SentiBanl Conc. (300)& RBF, $C$=1.0, $\gamma$=10& 0.08& 0.13\\ \hline
-				SentiBank Feat. (4096)& RBF, $C$=1.0, $\gamma$=0.1& 0.07& 0.21\\ \hline
-				SentiBank Feat. (PCA) (225)& RBF, $C$=1.0, $\gamma$=0.01& 0.07& 0.21\\ \hline
-				\textbf{Captions (300)}& \textbf{RBF, $C$=1.0, $\gamma$=0.01}& \textbf{0.06}& \textbf{0.31}\\ \hline
-				All (1578)& RBF, $C$=1.0, $\gamma$=0.1& 0.06& 0.23\\ \hline
-    \end{tabular}		
-		\caption{Regression results for different features with models trained on sequences that have atleast 4 annotations.}
-		\label{res-4-ann}	
-\end{table*}
-
-\begin{table*}[!ht]
-\centering
-    \begin{tabular}{| c | c | c | c |}
-    \hline
-				Feature& Model& MSE& SpearCorr\\ \hline
-				C3D (4096)& Linear, $C$=1.0& 0.08& 0.24\\ \hline
-				C3D (PCA) (225)& Linear, $C$=1.0& 0.09& 0.23\\ \hline
-				AudioSet (128)& RBF, $C$=1.0, $\gamma$=0.1& 0.1& 0.15\\ \hline
-				Affect (400)& RBF, $C$=1.0, $\gamma$=0.01& 0.09& 0.17\\ \hline
-				SentiBanl Conc. (300)& Linear, $C$=1.0& 0.08& 0.14\\ \hline
-				SentiBank Feat. (4096)& RBF, $C$=1.0, $\gamma$=10& 0.09& 0.14\\ \hline
-				SentiBank Feat. (PCA) (225)& Linear, $C$=1.0& 0.08& 0.03\\ \hline
-				\textbf{Captions (300)}& \textbf{RBF, $C$=1.0, $\gamma$=0.01}& \textbf{0.06}& \textbf{0.22}\\ \hline
-				All (1578)& RBF, $C$=, $\gamma$=& 0.07& 0.21\\ \hline
-    \end{tabular}		
-		\caption{Regression results for different features with models trained on sequences that have atleast 10 annotations.}
-		\label{res-10-ann}	
-\end{table*}
+Based on our experiments on the validation set, we observe that the image caption feature performs the best while using training video sequences that have atleast 4 annotations.
+Based on this result, we train different SVR models with varying number of annotations on the training set using image caption features.
+For example, we train a model, using image caption features, on training sequences with at least 4 annotations and use this model to predict the memorability score for video sequences in the validation set.
+We repeat this process for different number of annotations: from 4 to 15 annotations increasing the number of annotations by 1 in each iteration.
+Please note that the validation set in each of the repetitions is fixed and only the training set changes.
+We observed that the $MSE$ does not change significantly in each of the steps and hence we provide a demonstration of how $SpCorr$ varies with increasing number of annotations in the training set.
+Figure \ref{num-ann} demonstrates the result of this experiment, where we observe that beyond 8 annotations the value of $SpCorr$ keeps going down.
+In the wake of this observation, we investigate the performance of all the features when we train the regression model with video sequences that have at least 8 annotations.
 
 \begin{figure}[h]	  
   \centering
     \includegraphics[width=0.7\columnwidth]{figures/annotations.pdf}
-		\caption{Spearmann correlation on test data with models trained using features from image captions for varying number of annotations.}
+		\caption{Spearmann correlation on validation set with models trained using image caption features for varying number of annotations.}
     \label{num-ann}
 \end{figure}
 
-
-\subsection{Cross-validation}
-\label{cross-val}
-Since we have a relatively small dataset, we perform a cross-validation experiment in order to ensure that the model is not overfitting.
-We perform a 10-fold cross-validation on the cross-validation set: combining the training and validation sets.
-We report the results (both $mse$ and $spcorr$) of the cross-validation for the following parameters: features from image captions, model trained on sequences with atleast 4 annotations, RBF kernel.
-Figure \ref{cross-val} reports the results of the cross-validation experiment and we observe that the evaluation metrics do not change much across the different folds.
-We can conclude that the trained model is generalizable and there is not much overfitting.
-
-\begin{figure}[h]	  
+\begin{table*}
   \centering
-    \includegraphics[width=0.8\columnwidth]{figures/cross-val.pdf}
-		\caption{Cross-validation performance on a model trained on sequences with atleast 4 annotations with features from image captions and an RBF kernel.}
-    \label{cross-val}
-\end{figure}
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    \textbf{Feature} & \textbf{Dimension}& \multicolumn{3}{c|}{\textbf{SVR Model (4 annotations)}} & \multicolumn{3}{c|}{\textbf{SVR Model (8 annotations)}}\\
+    % \hline
+    % \textbf{Inactive Modes} & \textbf{Description}\\
+    \cline{3-8}
+    & & Parameters& $MSE$ & $SpCorr$ & Parameters & $MSE$ & $SpCorr$\\ \hline
+    C3D& 4096& Linear, $C$=1.0& 0.08& 0.26& Linear, $C$=1.0& 0.07& 0.34\\ \hline
+		C3D (PCA)& 225& Linear, $C$=1.0& 0.08& 0.21& RBF, $C$=1.0, $\gamma$=0.01& 0.08& 0.17\\ \hline
+		AudioSet& 128& RBF, $C$=1.0, $\gamma$=0.01& 0.06& 0.22& RBF, $C$=1.0, $\gamma$=0.01& 0.05& 0.24\\ \hline
+		Affect& 400& RBF, $C$=1.0, $\gamma$=0.1& 0.07& 0.17& RBF, $C$=1.0, $\gamma$=0.1& 0.07& 0.23\\ \hline
+		SentiBank concepts& 300& RBF, $C$=1.0, $\gamma$=10& 0.08& 0.13& RBF, $C$=1.0, $\gamma$=0.1& 0.08& 0.17\\ \hline
+		SentiBank features& 4096& RBF, $C$=1.0, $\gamma$=0.1& 0.07& 0.21& RBF, $C$=1.0, $\gamma$=0.01& 0.07& 0.26\\ \hline
+		SentiBank features (PCA)& 225& RBF, $C$=1.0, $\gamma$=0.01& 0.07& 0.21& RBF, $C$=1.0, $\gamma$=0.01& 0.07& 0.23\\ \hline
+		Captions& 300& RBF, $C$=1.0, $\gamma$=0.01& 0.06& 0.31& RBF, $C$=1.0, $\gamma$=0.01& 0.05& 0.38 \\ \hline
+		Combination& 1578& RBF, $C$=1.0, $\gamma$=0.1& 0.06& 0.23& RBF, $C$=1.0, $\gamma$=0.1& 0.05& 0.27\\ \hline		
+    \hline
+  \end{tabular}
+  \caption{Prediction results on the test data for different features with models trained on sequences that have at least 4 (columns 3-5) or 10 (columns 6-8) annotations.}
+	\label{res-4-10-ann}	
+\end{table*}
 
+Now, reverting to the main experiment to measure how each feature performs in predicting the memorability scores for video sequences in the test set. 
+We compute the average number of annotations per sequence in training and test set for both the cases in order to check if there is a mismatch.
+On an average, each sequence in the test set has around 10 annotations and the test set remains the same across different experiments.
+Similarly, each sequence in the training set has 9 annotations on an average in the case where we train the models with sequences having at least 4 annotations and 11 annotations in the other case.
+Looking at these numbers, we can see that the average number of annotations per sequence is quite balanced across the training and test sets.
+Table \ref{res-4-10-ann} reports the memorability prediction results for different features using models trained on sequences with at least 4 (columns 3-5) and 10 (columns 6-8) annotations.
+Observing the table, we can clearly see that the image captions perform the best, among all the features, in terms of $MSE$ and $SpCorr$.
+These features capture the semantics in the video and are helping in better predicting the memorability scores on new data.
+Though similar $MSE$ scores are obtained for other features like AudioSet, the memorability scores, predicted by the model trained on image caption features, are better correlated with the ground-truth ($SpCorr$ = 0.31 and 0.39). 
+A combination of all the features is the second best performing feature combination in terms of $MSE$, but falls behind other individual features (AudioSet and C3D) in terms of $SpCorr$.
 
+One of our initial hypotheses was that emotion would play a important role in memorability of a video sequence, supported by literature from psychology.
+We used different set of features to encode the emotion in a video: Affect \cite{affect} and SentiBank \cite{sb-feat}.
+Observing the scores in Table \ref{res-4-10-ann}, we can say that the SentiBank features (fourth row from bottom) and affect features (sixth row from bottom) perform reasonably well, when the video sequences in the training set have at least 8 annotations. 
+But the models trained on image caption features out-perform those trained on emotion features.
+This could be because of the choice of features that encode emotion or the performance of the emotion models not being good enough for such an application.
+From the analysis on this dataset and the features we used for encoding emotion, we \emph{cannot} conclude that emotion plays an important role in memorability.
 
-
-
-
-
-
-
+Comparing the two sets of results in Table \ref{res-4-10-ann}, we observe that the model trained on sequences with at least 8 annotations performs better than the model trained on sequences with at least 4 annotations.
+The only exception being the C3D (PCA) feature, where the model trained on sequences with at least 4 annotations performs marginally better than the model trained on sequences with at least 8 annotations. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{CONCLUSIONS AND FUTURE WORKS}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %avantages de notre dataset: long-term memorabity
 %Inconvénient: mesure avec une part de subjectivité
-
+We presented a machine learning model that can predict memorability score for a given video sequence.
+After exploring a variety of state-of-the-art deep learning audio-visual features, we can say that a model trained with features from image captions (semantic features) can provide predictions that are most correlated with ground-truth memorability scores.
+We also investigated the number of annotations required to train a model and found a sweet spot where the performance is optimal.
+An immediate direction for future research would be to explore other approaches to encode emotion in videos and investigate whether we can improve the prediction performance using these approaches.
 %we propose to turn to a "totally objective" measure of memory to constitute a dataset for video memorability prediction
 
 % Nous construisons actuellement une base de données de grande ampleur avec une mesure purement objective de la mémoire.
