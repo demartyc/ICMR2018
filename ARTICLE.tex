@@ -23,41 +23,23 @@
 \usepackage{multirow}
 %\usepackage{arydshln}
 \usepackage{subfig}
-\usepackage{balance}
 \usepackage{caption}
 \usepackage{graphicx}
 \usepackage{amsmath}
+%\usepackage{times}
+\usepackage{hyperref}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT's Identification
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Copyright
-%\setcopyright{none}
-%\setcopyright{acmcopyright}
-%\setcopyright{acmlicensed}
-\setcopyright{rightsretained}
-%\setcopyright{usgov}
-%\setcopyright{usgovmixed}
-%\setcopyright{cagov}
-%\setcopyright{cagovmixed}
-
-
-% DOI
-\acmDOI{10.475/123_4}
-
-% ISBN
-\acmISBN{123-4567-24-567/08/06}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% CONFERENCE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Conference
-\acmConference[ICMR 2018]{ACM Yokohama conference}{June 2018}{Yokohama, Japan} 
-\acmYear{2018}
-%\copyrightyear{2018}
-%\acmArticle{4}%??
-%\acmPrice{15.00}%??
+\copyrightyear{2018} 
+\acmYear{2018} 
+\setcopyright{acmcopyright}
+\acmConference[ICMR '18]{2018 International Conference on Multimedia Retrieval}{June 11--14, 2018}{Yokohama, Japan}
+\acmBooktitle{ICMR '18: 2018 International Conference on Multimedia Retrieval, June 11--14, 2018, Yokohama, Japan}
+\acmPrice{15.00}
+\acmDOI{10.1145/3206025.3206056}
+\acmISBN{978-1-4503-5046-4/18/06}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -66,7 +48,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TITLE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Annotating, understanding, and predicting long-term video memorability}
+\title{Annotating, Understanding, and Predicting Long-term Video Memorability}
 %\titlenote{}
 %\subtitle{}
 %\subtitlenote{}
@@ -75,55 +57,48 @@
 % AUTHORS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %author 1
-%\author{Romain Cohendet}
+\author{Romain Cohendet$^{\ast}$}{\thanks{$^{\ast}$Both authors contributed equally to this work.}}
 %\authornote{}
 %\orcid{1234-5678-9012}
-%\affiliation{%
-%	\institution{Technicolor}
-%	\streetaddress{Technicolor Research \& Licensing, 975 Avenue des Champs Blancs, 35576 Cesson-Sevigne, France}
-%	\city{Rennes} 
-%	\state{France} 
-%	\postcode{}
-%}
-%\email{romain.cohendet@technicolor.com}
+\affiliation{%
+	\institution{Technicolor}
+	\streetaddress{Technicolor Research \& Licensing, 975 Avenue des Champs Blancs, 35576 Cesson-Sevigne, France}
+	\city{Rennes}
+	\state{France}
+	\postcode{}
+}
+\email{Romain.Cohendet@technicolor.com}
 
 %author 2
-%\author{Karthik Yadati}
-%\affiliation{%
-%	\institution{University of Delft}
-%	\streetaddress{}
-%	\city{Delft} 
-%	\state{} 
-%	\postcode{}
-%}
-%\email{N.K.Yadati@tudelft.nl}
+\author{Karthik Yadati$^{\ast}$}
+	\affiliation{%
+	\institution{Delft University of Technology }
+	\streetaddress{}
+	\city{Delft} 
+	\state{} 
+	\postcode{}
+}
+\email{N.K.Yadati@tudelft.nl}
 
 %author 3
-%\author{Ngoc Khanh Duong}
-%\affiliation{%
-%	\institution{Technicolor}
-%	\city{Rennes} 
-%	\country{France}}
-%\email{Quang-Khanh-Ngoc.Duong@technicolor.com}
+\author{Ngoc Q. K. Duong}
+\affiliation{%
+	\institution{Technicolor}
+	\city{Rennes} 
+	\country{France}}
+\email{Quang-Khanh-Ngoc.Duong@technicolor.com}
 
 %author 4
-%\author{Claire-Helene Demarty}
-%\affiliation{%
-%	\institution{Technicolor}
-%	\city{Rennes}
-%	\country{France}
-%}
-%\email{Claire-Helene.Demarty@technicolor.com}
-
-%%%%%%%%%%%%
-%%% for blind review %%%
-%author 1
-%\author{Removed for review}
-%author 2
-%\author{Removed for review}
+\author{Claire-H\'el\`ene Demarty}
+\affiliation{%
+	\institution{Technicolor}
+	\city{Rennes}
+	\country{France}
+}
+\email{Claire-Helene.Demarty@technicolor.com}
 
 % The default list of authors is too long for headers.
-\renewcommand{\shortauthors}{Removed for blind review}%{R. Cohendet et al.}%Removed for blind review
+\renewcommand{\shortauthors}{R. Cohendet et al.}%Removed for blind review
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ABSTRACT
@@ -169,15 +144,15 @@ We finally investigate the use of various types of audio and visual features and
 	</ccs2012>  
 \end{CCSXML}
 
-%\ccsdesc[500]{Computer systems organization~Embedded systems}
-%\ccsdesc[300]{Computer systems organization~Redundancy}
-%\ccsdesc{Computer systems organization~Robotics}
-%\ccsdesc[100]{Networks~Network reliability}
+%\ccsdesc[500]{Computing methodologies~Computer vision}
+%\ccsdesc[500]{Computing methodologies~Scene understanding}
+%\ccsdesc[300]{Computing methodologies~Visual content-based indexing and retrieval}
+%\ccsdesc[300]{Computing methodologies~Machine learning}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % KEYWORDS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\keywords{Video memorability, Long-term memory, Measurement protocol, Deep learning, Multimedia information retrieval}
+\keywords{Video memorability, Long-term memory, Scene understanding, Measurement protocol, Global video features, Attributes}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ABOUT ICMR'2018 article...
@@ -185,12 +160,6 @@ We finally investigate the use of various types of audio and visual features and
 \maketitle
 %if we want the text be called from there
  %\input{samplebody-conf}
-
-%% About the ICMR article on Media retrieval with VM
-	% focus on "Multimedia content-based retrieval"
-	% Length: from 6 to 8 pages + 1 additional page for references (no longer distinction between long and short papers)
-	% Submission deadline: 2018/01/20
-	% Contributions addressing the challenges of large-scale search and user behavior analysis are especially welcome
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}%nb of sections %2 PAGES
@@ -233,12 +202,12 @@ While participating in the expansion of research on VM, the contributions of thi
 \begin{itemize}
 	\item We propose a new protocol that measures very long-term memory performances (from weeks to years after memorization) to collect ground truth data of good quality and make the corresponding dataset available for the research community (section \ref{section_dataset_construction}).
 	\item We assess and analyze the collected data and provide useful insights on the understanding of VM (section \ref{study_memorability}).
-	\item We build a computational model based on machine learning techniques which allows to predict VM score of a given video. For this purpose, we investigate the use of various types of audio and visual features, ranging from low-level characteristics to emotional and (highly) semantic features (section \ref{mem-pred}).
+	\item We build a computational model based on machine learning techniques which allows to predict a VM score for a given video. For this purpose, we investigate the use of various types of audio and visual features, ranging from low-level characteristics to emotional and (highly) semantic features (section \ref{mem-pred}).
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Previous work}
-In this section, we review previous work on image and video memorability prediction, focusing on annotation protocols and modelling aspects.
+In this section, we review previous work on IM and VM prediction, focusing on annotation protocols and modelling aspects.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Measurement of memorability}
 %work in psychology
@@ -247,7 +216,7 @@ This work provided researchers, interested in computational understanding of IM 
 It also demonstrated that humans have an extensive long-term visual memory, which enables them to recall a great amount of images \cite{standing_1973_learning} and image details \cite{brady_2008_visual}, as well as of videos \cite{furman_2007_they}.
 This is one of the observations at the origin of the work on memorability in computer science \cite{isola_2011_makes}.
 Several factors have also been highlighted for their critical influence on long-term memory, such as emotion \cite{kensinger_2008_memory}, semantics \cite{quillan_1966_semantic}, several demographic factors \cite{cohendet_2016_using}, memory re-evocation \cite{nadel_1997_memory}, or passage of time \cite{mcgaugh_2000_memory}.
-These different factors are all important to better understand memorability, and are found valuable computational features for image and video memorability prediction.
+These different factors are all important to better understand memorability, and are found valuable computational features for IM and VM prediction.
 
 %Images work -- towards a long-term memorability
 Focusing on the work in computer vision, most studies on IM prediction made use of one of the two available large datasets designed specifically to meet this challenge \cite{isola_2011_makes,khosla_2015_understanding}.
@@ -275,7 +244,7 @@ The major drawback of the study comes from the use of questions instead of a cla
 Indeed, the memorability scores computed for the videos may reflect not only the differences in memory performances but also the differences between the questions in terms of difficulty.
 The authors tested the complexity of the chosen textual questions using the Flesch-Kincaid Grade Level readability metric, which is designed to quantify how difficult to understand an English text is \cite{kincaid_1975_derivation}.
 However, this measure might not be sufficient to represent the questions in all their complexities, such as the ease for a person to draw images from the words, to connect the words to the associated concepts in memory, to associate the words to the corresponding scene, etc.
-Moreover, there is an unequal distribution of the reading comprehension of English among Amazon Mechanical Turk workers, who are not necessary anglophone people.
+Moreover, there is an unequal distribution of the reading comprehension of English among Amazon Mechanical Turk workers, who are not necessary native English speakers.
 This problem of a potential unequal complexity of the question becomes even more important in view of the use by authors of the response time to calculate memorability scores, which might also critically depend on the complexity of the questions.
 One will note that this potential bias could have also affected the measure of inter-human consistency.
 Furthermore, the questions were handcrafted, and the choices for types of questions and videos were very limited (e.g., the question "Did you see a car on road?" implies that in a whole experimental session only one car on a road should appear to connect the memory performance to one particular video).
@@ -366,11 +335,11 @@ They had to press the space bar when they recognized a video in particular, and 
 \subsection{Memorability score calculation}
 %Each video has also been viewed as a filler by $10.5$ participants.
 After collecting the data, we kept only the 660 videos that had been seen at least 4 times as targets (from the initial set of 700 videos).
-On average, each video of our dataset has been viewed as a target by $10.7$ participants; which corresponds to the mean number of observations that enters in the calculation of a memorability score.
+On average, each video of our dataset had been viewed as a target by $10.7$ participants; which corresponds to the mean number of observations that enter into the calculation of a memorability score.
 We then assigned a memorability score to each video, defined as the correct recognition rate of the video when viewed as target.
 The average percentage of correct detections for all participants was $46.71\%$ (stdev = 14.65\%), and the average false alarm rate (i.e., the percentage of answers on fillers) was $4.16\%$ (stdev = 5.27\%).
 Figure \ref{fig:response_time_vs_memorability}(a) provides a distribution of the videos according to their degree of memorability.
-The dataset is publicly released here\footnote{\textit{www.remove-for-blind-review}. The original videos are not released because of copyright issues, but instead we provide the process we used to extract them from the movies and the features used in section \ref{mem-pred}.}.
+The dataset is publicly released here\footnote{\url{https://www.technicolor.com/dream/research-innovation/movie-memorability-dataset}}. In addition to the videos and corresponding ground truth, we also provide the features used in section \ref{mem-pred}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Study of the memorability annotations}
@@ -387,7 +356,7 @@ In what follows, error bars in the graphs correspond to standard error of the me
 \label{ssec:human}
 %global consistency calculation
 We follow the method proposed in \cite{isola_2014_makes} to measure human consistency when assessing memorability of videos.
-We randomly split our 104 participants into two independent groups of equal size, and calculate how well video memorability scores from the first group of participants match with video memorability scores from the second group.
+We randomly split our 104 participants into two independent groups of equal size, and calculate how well VM scores from the first group of participants match with VM scores from the second group.
 Averaging over 25 random half-split trials, an average Spearman's rank correlation (i.e., a global human consistency) of $0.57$ is observed between these pairs of scores.
 
 %Fig Consistency
@@ -417,18 +386,14 @@ Apart from the conclusions we could draw about the universality of the intrinsic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Neutral and typical videos}
 In our experiment, participants were given clear instructions that they had to really recognize any video they were presented as already seen, and not only guess that a video was coming from a movie whose title was proposed in the questionnaire.
-In this section, we perform an analysis to compare neutral videos, which contain no element that would enable participants to guess that a video belongs to a particular movie, and typical videos.
-Indeed, if neutral videos received objective answers from participants, it might be more subjective for typical videos, that could be more or less easily related to the movie they belong to.
+However, a number of participants reported difficulty in making the distinction between guessing and recognizing: sometimes, because they knew that a video belonged to a movie they had seen, they had the false feeling of recognizing it.
+In this section, we perform an analysis to compare neutral videos, which contain no element that would enable participants to easily guess that a video belongs to a particular movie, and typical videos, that could be more or less easily related to the movie they belong to.
 
-A Wilcoxon rank-sum test indicated that the memorability was greater for neutral ($Mdn=.20, \mu=.24$) than for typical ($Mdn=.53, \mu=.53$) videos, with $Z=10.22, p<.00001$.
-Apart from the subjectivity aspect, we expected such a result because neutral videos contain less contextual elements, useful for recognition.
-Thus, this result does not necessarily mean that participants tended to guess -- rather than simply recognize -- videos selected from movies they have seen.
-
-As for the human consistency on memorability, a Wilcoxon rank-sum test indicated that it was slightly greater for neutral ($Mdn=.44, \mu=.45$) than for typical ($Mdn=.40, \mu=.41$) videos, with $Z=2.75, p<.01$.
-Along with the comments collected from the participants, who have as a majority reported difficulty to know if they were guessing or really recognizing the videos, this result suggests that human congruency is higher for more 'objectively' recognized segments than for ones with subjectivity as part of the equation. 
-One could note there is probably not just pure subjectivity here.
-Context might have biased the results as it might have helped some participants in their recognition task.
-If confirmed, this would constitute a weakness of our protocol to collect extensive data, that one should in that case counteract by adapted measures of control.
+A Wilcoxon rank-sum test indicated that the memorability was lower for neutral ($Mdn=.20, \mu=.24$) than for typical ($Mdn=.53, \mu=.53$) videos, with $Z=10.22, p<.00001$.
+This result does not necessarily mean that participants tended to guess when it was possible to do so -- rather than simply recognize -- videos selected from movies they have seen.
+Indeed, neutral videos contain far less contextual elements useful for recognition than typical ones, making the latter -- if more easily "guessable" -- at least more easily recognizable.
+However, it should draw our attention to the possibility that our measure is not purely objective, but -- to some extent -- context dependent.
+This would constitute the main weakness of our protocol, that one should counteract by adapted measures of control.
 
 We can also note that the average false alarm rate (that is, the percentage of wrongly recognized filler videos) was low for neutral videos ($.05\%$) as well as for typical videos ($.03\%$).
 Specifically, we expect lucky confusions to account for little of correct detections on average for the two sorts of videos.
@@ -451,7 +416,7 @@ We also observed a Pearson's correlation of $-0.36$ ($p<.0001$) between the resp
 These two results indicate that participants tended to answer quicker when the videos were more memorable, even though the participants did not receive any instruction to do so.
 This suggests that people tend to naturally answer rapidly after having recognized the video.
 This also suggests either that the most memorable videos are also the most accessible in memory, and/or that the most memorable videos contain more early recognizable elements than the less memorable ones.
-In \cite{shekhar_2017_show}, the response time of the participants was taken to be the measure of video memorability.
+In \cite{shekhar_2017_show}, the response time of the participants was taken to be the measure of VM.
 The authors chose this measure to avoid a long gap between viewing and recall stage.
 Our results validate -- to some extent -- their modus operandi: the fact that the response time decreases linearly when the memorability increases suggest that the response time is a good indicator of the memorability of the videos (at least, in a recognition task). 
  %However, the linear continuous decrease in response time when memorability score values increase supports the first hypothesis: one can hardly imagine that the early recognizable elements (e.g., the face of a person, a particular place...) decreases linearly with the memorability of our 10-sec semantically consistent videos.
@@ -556,7 +521,7 @@ This suggests that the videos were equally susceptible to be recognized by the d
 %\subsection{New manner to compute memorability scores: take into account time and FA}
 %Une nouvelle manière pour prendre en compte les FA dans les scores de mémorabilité applicable à l'étude de la mémorabilité sur les images
 %Ce qui à la fin de cette section vient avant permet de conclure cette partie en disant : la meilleure façon de calculer les scores de mémorabilité, c'est comme ça.
-% The question here is: "Must we correct our memorabiliy scores by taking into account the mean memorability of the participants --> No, of the movie --> No' --> So the point here is just to provide an overview.
+% The question here is: "Should we correct our memorabiliy scores by taking into account the mean memorability of the participants --> No, of the movie --> No' --> So the point here is just to provide an overview.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Memorability prediction} %for Khartik
@@ -643,7 +608,7 @@ We repeat this process for all the 10 frames and take the average of all the vec
 \subsection{Modelling and evaluation metric}
 \label{model-eval}
 We use the features discussed in Section \ref{feat-extr} to train a Support Vector Regression (SVR) model for the VM score prediction. The choice of SVR is guided by the nature of the problem as well as by the small size of the dataset. We have chosen to go with the same regressor for all the features because our focus is mainly on identifying which features are more important for VM prediction. This way we ensure that the difference in performances is because of the features themselves. Note that, in addition to the variety of features explained in Section \ref{feat-extr}, we also explore a combination of all the features by concatenating them into a single feature vector.
-While performing such a concatenation, we use the low-dimension version of the features for C3D and SentiBank features, obtained after applying a dimension reduction method (PCA) to the original set. In the experiments where we use PCA for C3D and SentiBank features, we retain 95\% of variance in the data while reducing the feature dimensions. 
+While performing such a concatenation, we use the low-dimension version of the features for C3D and SentiBank features, obtained after applying a dimension reduction method (PCA) to the original set. In the experiments where we use PCA for C3D and SentiBank features, we retain 95\% of variance in the data while reducing the feature dimensions. Note that we investigated other models like LSTM, to model the sequential nature of videos. The results were not very encouraging and this could be because of the relatively smaller size of our dataset.
 
 We use the grid search strategy to obtain the best hyper-parameters for SVR in term of the Mean Squared Error ($MSE$) between the predicted scores and the ground-truth on the validation set. The choice of hyper-parameters in the grid search are: kernel = $\{$linear, RBF$\}$, $C$ = $\{0.1, 1, 10, 100, 1000\}$ and $\gamma$ = $\{0.01, 0.1, 1, 10, 100\}$.
 
@@ -711,7 +676,7 @@ However, when observing the results in Table \ref{res-4-10-ann}, both Affect \ci
 %Image captions capture the visual semantics in the video, while C3D features encode the visual spatio-temporal information.
 %These results are consistent with previous results on predicting image memorability \cite{squalli_2017_deep}.
 %Our dataset consists of videos taken from movies that have a specific story-line; semantics and spatio-temporal information seem to be playing an important role in people remembering specific scenes from movies.
-%Other features like AudioSet come close to the performance of the C3D, but only audio signal does not seem to be enough for predicting video memorability.
+%Other features like AudioSet come close to the performance of the C3D, but only audio signal does not seem to be enough for predicting VM.
 Another observation from Table \ref{res-4-10-ann} is that the combination of all the features (last row in the table) does not appear in the top-3 best performing features. One of the reasons for this could be that there is a lot of redundance when combining all the features into a single feature vector, or it could be that the size of the combined feature vector is too big when compared to the size of the dataset. Thus, in future work we could look at selectively combining the features to investigate if that improves the performance. 
 
 %One of our initial hypotheses was that emotion would play an important role in VM, supported by literature from psychology \cite{emo-mem}.
@@ -744,23 +709,38 @@ We finally performed an additional 10-fold cross-validation on videos with at le
 \section{Conclusions}
 \label{conclusions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%protocol
-In this paper, we have presented a novel protocol to collect long-term memorability annotations for videos, which enabled us to build an important dataset to support research in this subject. We then performed a range of statistical studies on this dataset to understand important factors in the annotation process as well as how they can affect the video memorability. One of our key observations is that high human consistency in video memorability can be obtained by only about 18 annotations, which is significantly lower than for images according to the previous studies. We finally proposed computational models for video memorability prediction where we investigated the use of various audio-visual features for the task. For this, we observed that the visual semantic features offer the best prediction result, which re-confirms the correlation between the visual attributes and memorability. Our current work focuses on building a large scale video memorability dataset using crowdsourcing annotations.  
-
-%and built a dataset publicly available.
-%We measured memory performance after weeks to years.
-%It appears from the analysis that memory of videos continues to decrease for years, which justifies a measurement of memory performance after a significant retention duration, longer than what is proposed in previous work.
-%The principal weakness of our protocol is the part of subjectivity susceptible to enter in our measure of memorability, that one should counteract by appropriate controls.
-%Our current work focuses on collecting VM annotations at a large scale using crowdsourcing, measuring VM in a more objective manner.
+%Protocol and M understanding
+In this paper, we have presented a novel protocol to collect long-term memorability annotations for videos, which enabled us to build a dataset to support research in this subject.
+We then performed a range of statistical studies on this dataset to understand important factors in the annotation process as well as how they can affect video memorability.
+The main strength of our protocol is that it enables to measure memory performance weeks to years after memorization without requiring a longitudinal study.
+It appears from the analysis that memory of videos continues to decrease for years, which justifies such a distant measurement, in contrast to previous work.
+The counterpart is that we cannot control the memorizing process.
+In particular, the correctness of the answers to the questionnaire designed to collect information about the participants' prior memory is not absolute.
+Even with additional information about the movies (e.g. showing an excerpt/trailer), the possibility would remain that a participant falsely answers he/she has already seen/never seen a movie.
+%We hope, however, this bias relatively limited.
+Our current work focuses on collecting VM annotations at a large scale using crowdsourcing, measuring VM in a more objective manner, by controlling the memorizing step.
+We proceed of the measurement after different periods of retention (from a few minutes to a few days), which enables us also to study long-term memory, although not as long as in the present experiment. 
+Another limitation of the presented protocol is the limited choice of content.
+To design our experiment, we needed contents broadly disseminated among the population surveyed.
+In our current work, we are not limited anymore by this problem, and decided to work on neutral videos.
 
 %modelling Karthik
+We finally proposed computational models for VM prediction where we investigated the use of various audio and visual features for the task.
+For this, we observed that the visual semantic features offer the best prediction result, which re-confirms the correlation between the visual attributes and memorability.
+Although very promising, these results seem to be limited by the relative small size of the dataset.
+Again, our current work might enable us to reconfirm these results on a larger dataset and for more general videos.
+
+%Moreover, our measure captures not only pure memory performance but also a part of subjectivity.
+%Why not say also that we might try to check the response to the questionnaire by checking as proposed by one of the reviewers the answers against Netflix history (of course this can be done only for movies that are on Netflix and that were viewed since Netflix start but this is a start for cross checking the questionnaire. // %One improvement of our protocol could be to replace our questionnaire to by a check of a -- e.g. Netflix -- history, to be sure if the participants see a movie -- but problem os, if he not seen?
+
 %After exploring a variety of generic (C3D, AudioSet), perceptual (SentiBank, Affect), and semantic (Image captions) features, we can say that a model trained with  semantic features provides predictions that are most correlated with ground truth memorability scores.
 %It might be very interesting to investigate if these findings hold for generic video types other than movies.
 %Future research could involve investigating the memorability prediction performance on other generic videos using the existing set of features as well as other important features.
-%We also found that emotion features are not that well correlated with ground truth memorability scores, as indicated in psychology literature.
+%We also found that emotion features are not that well correlated with ground truth memorability scores, as indicated in psychology literature.%no result is no effect att!!
 
 %An immediate direction for future research would be to explore other approaches to encode emotion in videos and investigate whether we can improve the prediction performance using these approaches.
 %We also investigated the number of annotations required to train a model and found a sweet spot where the performance is optimal.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
                                   % on the last page of the document manually. It shortens
@@ -768,6 +748,7 @@ In this paper, we have presented a novel protocol to collect long-term memorabil
                                   % This command does not take effect until the next page
                                   % so it should come on the page before the last. Make
                                   % sure that you do not shorten the textheight too much.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\section*{Appendix}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
